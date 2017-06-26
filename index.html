@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="myFirstModule">
+  <head>
+    <meta charset="utf-8">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>My First Angularjs App</title>
+  </head>
+  <body ng-controller="MyFirstController">
+    <h1>Beware, AngularJS learner passing through !</h1>
+
+    Type your name here: <input type="text"
+      ng-model="name"
+      ng-keyup="updateAscii()"> <br><br>
+
+    {{sayHello()}}, {{name}}! <br>
+
+    Your name's ASCII code adds to : {{asciiSum}}
+  </body>
+</html>
