@@ -3,30 +3,43 @@
 
   angular
     .module('myFirstModule', [])
-    .controller('MyFirstController', function($scope, $filter) {
-      $scope.name = 'Pooja Sharma';
-      $scope.asciiSum = 1141;
+    .controller('MyFirstController', MyController);
 
-      $scope.sayHello = function() {
-        return 'Hello';
-      };
+  MyController.$inject = ['$scope', '$filter'];
 
-      $scope.uppercaseName = function() {
-        var upcase = $filter('uppercase');
-        $scope.name = upcase($scope.name);
+  function MyController($scope, $filter) {
+    $scope.name = 'POOJA SHARMA';
+    $scope.asciiSum = 853;
+    $scope.flashIsRunning = true;
+
+    $scope.sayHello = function() {
+      return 'Hello';
+    };
+
+    $scope.uppercaseName = function() {
+      var upcase = $filter('uppercase');
+      $scope.name = upcase($scope.name);
+    }
+
+    $scope.updateAscii = function(name) {
+      var tempAsciiSum = 0;
+      for (var i = 0; i < $scope.name.length; i++) {
+        tempAsciiSum += $scope.name.charCodeAt(i);
       }
+      $scope.asciiSum = tempAsciiSum;
+      return $scope.asciiSum;
+    }
 
-      $scope.updateAscii = function() {
-        $scope.asciiSum = nameAsciiSum($scope.name);
-      }
+    $scope.flashStatus = function() {
+      return ($scope.flashIsRunning ? 'running' : 'standing');
+    }
 
-      var nameAsciiSum = function(name) {
-        var tempAsciiSum = 0;
-        for (var i = 0; i < name.length; i++) {
-          tempAsciiSum += name.charCodeAt(i);
-        }
-        return tempAsciiSum;
-      }
-    })
+    $scope.flashImgExt = function() {
+      return ($scope.flashIsRunning ? 'gif' : 'jpg');
+    }
 
+    $scope.toggleFlashStatus = function() {
+      $scope.flashIsRunning = $scope.flashIsRunning ? false : true;
+    }
+  };
 })();
