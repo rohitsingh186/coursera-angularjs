@@ -10,8 +10,9 @@
     <h1>Beware, AngularJS learner passing through !</h1>
 
     Type your name here: <input type="text"
-      ng-model="name"
-      ng-keyup="updateAscii()"> <br><br>
+                                ng-model="name"
+                                ng-keyup="updateAscii()"
+                                ng-blur="uppercaseName()"> <br><br>
 
     {{sayHello()}}, {{name}}! <br>
 
