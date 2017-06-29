@@ -8,19 +8,41 @@
   </head>
   <body ng-controller="MyFirstController">
 
+    <h2><u>WEEK 1</u></h2>
+
+    <h3>*** Starting Angular:</h3>
+
+    Type your name here: <input type="text"
+                                ng-model="name"
+                                ng-keyup="uppercaseName()">
+
+    <br><br>
+
+    {{sayHello()}}, {{name}}! <br>
+
+    Your name's ASCII code adds to : {{updateAscii()}} <br>
+
+    <h3>*** Expression Everywhere:</h3>
+
+    <h4>Say hi to flash !</h4>
+
+    <img ng-src="images/flash-{{flashStatus()}}.{{flashImgExt()}}"
+         ng-click = "toggleFlashStatus()"
+         style="height: 100px; width: 150px">
+
     <h2><u>WEEK 2</u></h2>
 
-    <h3>TWO WAY BINDING:</h3>
+    <h3>*** Two Way Binding:</h3>
 
-    Name: <input type="text" ng-model="name">
-
-    <br><br>
-
-    Two way bind: <input type="text" ng-model="name">
+    Name: <input type="text" ng-model="myName">
 
     <br><br>
 
-    <h3>CUSTOM FILTER (Palindrom):</h3>
+    Two way bind: <input type="text" ng-model="myName">
+
+    <br><br>
+
+    <h3>*** Custom Filter (Palindrom):</h3>
 
     Reverse Name: <b>{{ reverseMe() | uppercase }}</b>
   </body>
