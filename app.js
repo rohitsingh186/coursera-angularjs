@@ -16,6 +16,22 @@
 
     // week_2
     $scope.myName = "Rohit Singh";
+    $scope.shoppingList = [
+      {
+        name: 'Buiscuit',
+        price: 10,
+        quantity: 2
+      },
+      {
+        name: 'Lemon',
+        price: 1,
+        quantity: 10
+      },
+      {
+        name: 'Mango',
+        price: 50,
+        quantity: 5
+      }];
 
     // week_1
     $scope.sayHello = function() {

@@ -14,13 +14,13 @@
 
     Type your name here: <input type="text"
                                 ng-model="name"
-                                ng-keyup="uppercaseName()">
-
-    <br><br>
+                                ng-keyup="uppercaseName()"><br>
 
     {{sayHello()}}, {{name}}! <br>
 
     Your name's ASCII code adds to : {{updateAscii()}} <br>
+
+    <br>
 
     <h3>*** Expression Everywhere:</h3>
 
@@ -34,16 +34,47 @@
 
     <h3>*** Two Way Binding:</h3>
 
-    Name: <input type="text" ng-model="myName">
+    Name: <input type="text" ng-model="myName"><br>
 
-    <br><br>
+    Two way bind: <input type="text" ng-model="myName"><br>
 
-    Two way bind: <input type="text" ng-model="myName">
-
-    <br><br>
+    <br>
 
     <h3>*** Custom Filter (Palindrom):</h3>
 
-    Reverse Name: <b>{{ reverseMe() | uppercase }}</b>
+    Reverse Name: <b>{{ reverseMe() | uppercase }}</b><br>
+
+    <br>
+
+    <h3>*** ng-repeat:</h3>
+
+    <table border="1">
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      <tr ng-repeat="item in shoppingList">
+        <td>{{ item.name }}</td>
+        <td>{{ item.price | currency : '₹': 2 }}</td>
+        <td>{{ item.quantity }}</td>
+      </tr>
+    </table><br>
+
+    <h3>*** Filtered ng-repeat:</h3>
+
+    <input type="text" ng-model="searchString" placeholder="search item"><br><br>
+    <table border="1">
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      <tr ng-repeat="item in shoppingList | filter : searchString">
+        <td>{{ item.name }}</td>
+        <td>{{ item.price | currency : '₹': 2 }}</td>
+        <td>{{ item.quantity }}</td>
+      </tr>
+    </table>
   </body>
 </html>
