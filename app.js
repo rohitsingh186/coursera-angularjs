@@ -7,6 +7,9 @@
     .controller('MySecondController', MyController2)
     .controller('ParentController', ParentController)
     .controller('ChildController', ChildController)
+    .controller('AddItemController', AddItemController)
+    .controller('ShowItemController', ShowItemController)
+    .service('ItemService', ItemService)
     .filter('palindrom', PalindromFilterFactory);
 
   MyController.$inject = ['$scope', '$filter', 'palindromFilter'];
@@ -91,6 +94,51 @@
   function ChildController($scope) {
     this.pValue = 5;
     this.kValue = 7;
+  }
+
+  AddItemController.$inject = ['ItemService'];
+  function AddItemController(ItemService) {
+    var itemAdder = this;
+    itemAdder.itemName = '';
+    itemAdder.itemQuantity = 0;
+
+    itemAdder.addItem = function() {
+      ItemService.addItem(this.itemName, this.itemQuantity);
+    }
+  }
+
+  ShowItemController.$inject = ['ItemService'];
+  function ShowItemController(ItemService) {
+    var itemShower = this;
+
+    itemShower.items = ItemService.getItems();
+
+    itemShower.removeItem = function(itemIndex) {
+      return ItemService.removeItem(itemIndex);
+    }
+  }
+
+  function ItemService() {
+    var service = this;
+
+    var items = [];
+
+    service.addItem = function(itemName, itemQuantity) {
+      var item = {
+        name: itemName,
+        quantity: itemQuantity
+      }
+
+      items.push(item);
+    }
+
+    service.removeItem = function(itemIndex) {
+      items.splice(itemIndex, 1);
+    }
+
+    service.getItems = function() {
+      return items;
+    }
   }
 
   function PalindromFilterFactory() {
