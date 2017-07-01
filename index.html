@@ -75,6 +75,39 @@
         <td>{{ item.price | currency : '₹': 2 }}</td>
         <td>{{ item.quantity }}</td>
       </tr>
-    </table>
+    </table><br>
+
+    <h3>*** Prototypal Inheritence:</h3>
+
+    Parent name: <input type="text" ng-model="parent.name" placeholder="search item"><br>
+    Parent changeWings: <input type="text" ng-model="parent.changeWings" placeholder="search item"><br>
+    Child overrided name: <input type="text" ng-model="child.name" placeholder="search item"><br>
+    Child changeWings: <input type="text" ng-model="child.changeWings" placeholder="search item"><br><br>
+
+    <div ng-controller="MySecondController as ctrl">
+      <h3>*** Controller as syntaxt:</h3>
+
+      Special Name: <b>{{ctrl.specialName}}</b>
+    </div><br>
+
+    <h3>*** Scope Inheritance:</h3>
+    <div ng-controller="ParentController as pCtrl">
+      <b>Parents':</b><br>
+      Parent Controller's pValue: <b>{{pCtrl.pValue}}</b><br>
+      Parent Controller's kValue: <b>{{pCtrl.kValue}}</b><i>[Expecting NADA]</i><br>
+      Parent Controller's nValue: <b>{{pCtrl.nValue}}</b><br><br>
+
+      <div ng-controller="ChildController as cCtrl">
+        <b>Childs':</b><br>
+        Child Controller's pValue: <b>{{cCtrl.pValue}}</b><br>
+        Child Controller's kValue: <b>{{cCtrl.kValue}}</b><br>
+        Child Controller's nValue: <b>{{cCtrl.nValue}}</b><i>[Expecting NADA]</i><br><br>
+
+        <b>Parents' inside Child:</b><br>
+        Parent Controller's pValue: <b>{{pCtrl.pValue}}</b><br>
+        Parent Controller's kValue: <b>{{pCtrl.kValue}}</b><i>[Expecting NADA]</i><br>
+        Parent Controller's nValue: <b>{{pCtrl.nValue}}</b><br><br>
+      </div>
+    </div>
   </body>
 </html>

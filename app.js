@@ -4,6 +4,9 @@
   angular
     .module('MyFirstModule', [])
     .controller('MyFirstController', MyController)
+    .controller('MySecondController', MyController2)
+    .controller('ParentController', ParentController)
+    .controller('ChildController', ChildController)
     .filter('palindrom', PalindromFilterFactory);
 
   MyController.$inject = ['$scope', '$filter', 'palindromFilter'];
@@ -32,6 +35,12 @@
         price: 50,
         quantity: 5
       }];
+    $scope.parent = {
+      name: 'Parent',
+      changeWings: 'Whatever'
+    }
+    $scope.child = Object.create($scope.parent);
+    $scope.child.name = 'Child';
 
     // week_1
     $scope.sayHello = function() {
@@ -69,6 +78,20 @@
       return palindromFilter($scope.myName);
     };
   };
+
+  function MyController2() {
+    this.specialName = 'Neelam Singh';
+  }
+
+  function ParentController($scope) {
+    this.pValue = 1;
+    this.nValue = 3;
+  }
+
+  function ChildController($scope) {
+    this.pValue = 5;
+    this.kValue = 7;
+  }
 
   function PalindromFilterFactory() {
     return function(input) {
