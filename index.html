@@ -124,6 +124,31 @@
           <button ng-click="itemShower.removeItem($index)">Remove Item</button>
         </li>
       </ol>
+    </div><br>
+
+    <h3>*** Service Using Factory:</h3>
+    <div ng-controller="FactoryController as fCtrl">
+      Write your Hey You message: <input type="text" ng-model="fCtrl.heyYouMessage"><br>
     </div>
+
+    <div ng-controller="AnotherFactoryController as afCtrl">
+      Another Persons' Hey You message is: <b>{{ afCtrl.heyYouMessage }}</b>
+    </div><br>
+
+    <h3>*** Service Using Provider:</h3>
+    <div ng-controller="ShoppingListController as sCtrl">
+      Item Name: <input type="text" ng-model="sCtrl.itemName"><br>
+      Item Quantity: <input type="text" ng-model="sCtrl.itemQuantity"><br>
+      <button ng-click="sCtrl.addItem()">Add Item</button>
+
+      <ol>
+        <li ng-repeat="item in sCtrl.items">
+          {{ item.quantity }} of {{ item.name }}
+          <button ng-click="sCtrl.removeItem($index)">Remove Item</button>
+        </li>
+      </ol>
+
+      <strong ng-if="sCtrl.errorMessage">Error: </strong> {{ sCtrl.errorMessage }}
+    </div><br>
   </body>
 </html>

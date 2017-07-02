@@ -10,7 +10,13 @@
     .controller('AddItemController', AddItemController)
     .controller('ShowItemController', ShowItemController)
     .service('ItemService', ItemService)
-    .filter('palindrom', PalindromFilterFactory);
+    .filter('palindrom', PalindromFilterFactory)
+    .factory('FactoryUsingService', FactoryUsingServiceSingletonFactory)
+    .controller('AnotherFactoryController', AnotherFactoryController)
+    .controller('FactoryController', FactoryController)
+    .provider('ShoppingListService', ShoppingListServiceProvider)
+    .controller('ShoppingListController', ShoppingListController)
+    .config(Configuration);
 
   MyController.$inject = ['$scope', '$filter', 'palindromFilter'];
 
@@ -103,7 +109,7 @@
     itemAdder.itemQuantity = 0;
 
     itemAdder.addItem = function() {
-      ItemService.addItem(this.itemName, this.itemQuantity);
+      ItemService.addItem(itemAdder.itemName, itemAdder.itemQuantity);
     }
   }
 
@@ -146,4 +152,98 @@
       return input.split('').reverse().join('');
     };
   };
+
+  function FactoryUsingService() {
+    var factoryUsingService = this;
+
+    factoryUsingService.heyYouMessage = 'Hey You!';
+  }
+
+  function FactoryUsingServiceSingletonFactory() {
+    var fa
+    var singletonFactoryUsingService = new FactoryUsingService();
+
+    return function() {
+      return singletonFactoryUsingService;
+    };
+  }
+
+  FactoryController.$inject = ['FactoryUsingService'];
+  function FactoryController(FactoryUsingService) {
+    var fCtrl = this;
+    fCtrl.heyYouMessage = FactoryUsingService().heyYouMessage;
+  }
+
+  AnotherFactoryController.$inject = ['FactoryUsingService'];
+  function AnotherFactoryController(FactoryUsingService) {
+    var afCtrl = this;
+    afCtrl.heyYouMessage = FactoryUsingService().heyYouMessage;
+  }
+
+  function ShoppingListService(maxItems) {
+    var service = this;
+
+    var items = [];
+
+    service.addItem = function(itemName, itemQuantity) {
+      var item = {
+        name: itemName,
+        quantity: itemQuantity
+      }
+
+      if ((maxItems === undefined) ||
+          ((maxItems !== undefined) && (maxItems > items.length))) {
+        items.push(item);
+      } else {
+        throw new Error('Max items (' + maxItems + ') reached!');
+      }
+    }
+
+    service.removeItem = function(itemIndex) {
+      items.splice(itemIndex, 1);
+    }
+
+    service.getItems = function() {
+      return items;
+    }
+  }
+
+  function ShoppingListServiceProvider() {
+    var provider = this;
+    provider.defaultMaxItems = 3;
+
+    provider.$get = function() {
+      return new ShoppingListService(provider.defaultMaxItems);
+    }
+  }
+
+  Configuration.$inject = ['ShoppingListServiceProvider'];
+  function Configuration(ShoppingListServiceProvider) {
+    ShoppingListServiceProvider.defaultMaxItems = 2;
+  }
+
+  ShoppingListController.$inject = ['ShoppingListService'];
+  function ShoppingListController(ShoppingListService) {
+    var ctrl = this;
+    ctrl.itemName = '';
+    ctrl.itemQuantity = 0;
+    ctrl.errorMessage = undefined;
+
+    ctrl.addItem = function() {
+      try {
+        ShoppingListService.addItem(ctrl.itemName, ctrl.itemQuantity);
+      } catch (error) {
+        ctrl.errorMessage = error.message;
+      }
+    }
+
+    ctrl.items = ShoppingListService.getItems();
+
+    ctrl.removeItem = function(itemIndex) {
+      ShoppingListService.removeItem(itemIndex);
+      if (ctrl.errorMessage !== undefined) {
+        ctrl.errorMessage = undefined;
+      }
+    }
+  }
 })();
