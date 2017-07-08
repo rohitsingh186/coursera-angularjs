@@ -6,28 +6,86 @@
     <script src="app.js"></script>
     <title>My First Angularjs App</title>
   </head>
-  <body ng-controller="MyFirstController">
+  <body>
 
-    <h2><u>WEEK 1</u></h2>
+    <div ng-controller="ShoppingController as ctrl">
+      <h2><u>WEEK 3</u></h2>
+      <h3>*** Shopping with Promise:</h3>
 
-    <h3>*** Starting Angular:</h3>
+      Item: <input type="text" ng-model="ctrl.itemName">
+      Quantity: <input type="text" ng-model="ctrl.itemQuantity">
+      <button ng-click="ctrl.addItem()">Add Item</button><br><br>
 
-    Type your name here: <input type="text"
-                                ng-model="name"
-                                ng-keyup="uppercaseName()"><br>
+      Item: <input type="text" ng-model="ctrl.itemNameSync">
+      Quantity: <input type="text" ng-model="ctrl.itemQuantitySync">
+      <button ng-click="ctrl.addItemWithSynchronousCheck()">Synchronous Add Item</button><br>
+      <b ng-if="ctrl.errorMessage()">Error: {{ctrl.errorMessage()}}</b>
 
-    {{sayHello()}}, {{name}}! <br>
+      <ol>
+        <li ng-repeat="item in ctrl.items">
+          {{item.name}} - {{item.quantity}} <button ng-click="ctrl.removeItem($index)">Remove Item</button>
+        </li>
+      </ol>
+    </div><br>
 
-    Your name's ASCII code adds to : {{updateAscii()}} <br>
+    <div ng-controller="RestaurantController as ctrl">
+      <h3>*** HTTP Service:</h3>
 
-    <br>
+      <h4><u>Categories:</u></h4>
+      <table border="1" ng-if="!ctrl.categoryErrorMessage">
+        <tr>
+          <th>Id</th>
+          <th>Short Name</th>
+          <th>Name</th>
+          <th>Special Instruction</th>
+          <th>URL</th>
+        </tr>
+        <tr ng-repeat="category in ctrl.categories">
+          <td>{{category.id}}</td>
+          <td><a href="#menu_list" ng-click="ctrl.updateMenuList(category.short_name)">{{category.short_name}}</a></td>
+          <td><a href="#menu_list" ng-click="ctrl.updateMenuList(category.short_name)">{{category.name}}</a></td>
+          <td>{{category.special_instructions}}</td>
+          <td><a href="{{category.url}}">Link to Category</a></td>
+        </tr>
+      </table>
 
-    <h3>*** Expression Everywhere:</h3>
+      <strong ng-if="ctrl.categoryErrorMessage">{{ctrl.categoryErrorMessage}}</strong>
 
-    <h4>Say hi to flash !</h4>
+      <h4 id="menu_list"><u>Menu Items:</u></h4>
 
-    <img ng-src="images/flash-{{flashStatus()}}.{{flashImgExt()}}"
-         ng-click = "toggleFlashStatus()"
-         style="height: 100px; width: 150px">
+      <input type="text" ng-model="ctrl.menuQueryShortName" placeholder="Search Menu by category short name:">
+      <br><br>
+
+      <table border="1" ng-if="!ctrl.menuErrorMessage">
+        <tr>
+          <th>Id</th>
+          <th>Short Name</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Small Portion</th>
+          <th>Large Portion</th>
+        </tr>
+        <tr ng-repeat="menu in ctrl.menus">
+          <td>{{menu.id}}</td>
+          <td>{{menu.short_name}}</td>
+          <td>{{menu.name}}</td>
+          <td>{{menu.description}}</td>
+          <td>
+            <div ng-if="menu.price_small">
+              <div ng-if="menu.small_portion_name">{{menu.small_portion_name}} - </div>
+              ${{menu.price_small}}
+            </div>
+          </td>
+          <td>
+            <div ng-if="menu.price_large">
+              <div ng-if="menu.large_portion_name">{{menu.large_portion_name}} - </div>
+              ${{menu.price_large}}
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <strong ng-if="ctrl.menuErrorMessage">{{ctrl.menuErrorMessage}}</strong>
+    </div>
   </body>
 </html>
